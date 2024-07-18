@@ -1,0 +1,41 @@
+Задача 1: Создание функции для форматирования секунд в дни, 
+часы, минуты и секунды
+
+Для выполнения первой задачи необходимо создать функцию в SQL, 
+которая принимает количество секунд и возвращает строку 
+в формате "X days Y hours Z minutes W seconds".
+
+mysql> DELIMITER //
+mysql>
+mysql> CREATE FUNCTION format_seconds(seconds INT)
+    -> RETURNS VARCHAR(100)
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE days INT;
+    ->     DECLARE hours INT;
+    ->     DECLARE minutes INT;
+    ->     DECLARE remaining_seconds INT;
+    ->     DECLARE result VARCHAR(100);
+    ->
+    ->     SET days = FLOOR(seconds / 86400);
+    ->     SET hours = FLOOR((seconds % 86400) / 3600);
+    ->     SET minutes = FLOOR((seconds % 3600) / 60);
+    ->     SET remaining_seconds = seconds % 60;
+    ->
+    ->     SET result = CONCAT(days, ' days ', hours, ' hours ', minutes, ' minutes ', remaining_seconds, ' seconds');
+    ->
+    ->     RETURN result;
+    -> END //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> SELECT format_seconds(123456) AS formatted_time;
++---------------------------------------+
+| formatted_time                        |
++---------------------------------------+
+| 1 days 10 hours 17 minutes 36 seconds |
++---------------------------------------+
+1 row in set (0.01 sec)
+
+Скриншот выполеннного задания - 1
